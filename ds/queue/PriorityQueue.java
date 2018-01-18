@@ -1,23 +1,31 @@
 package ds.queue;
 
+import java.util.NoSuchElementException;
+
 public class PriorityQueue {
 
     private int heapSize;
+    private int[] arr;
 
-    public PriorityQueue(int[] arr) {
-        heapSize = arr.length - 1;
-        buildMaxHeap(arr);
+    public PriorityQueue(int arrSize) {
+        arr = new int[arrSize];
     }
 
-    public int maximum(int[] arr) {
+    public int peek() {
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
         return arr[0];
     }
 
-    public int extractMax(int[] arr) {
+    public int pop() {
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
         int max = arr[0];
-        swap(arr, 0, heapSize);
+        swap(arr, 0, heapSize - 1);
         heapSize --;
-        maxHeapify(arr, heapSize, 0);
+        maxHeapify(heapSize, 0);
         return max;
     }
 
@@ -25,20 +33,35 @@ public class PriorityQueue {
         i번째 노드에 새로운 key 삽입
         (현재 i번째 노드의 값보다 key가 같거나 커야함)
     */
-    public int[] increaseKey(int[] arr, int i, int key) {
+    public int[] increaseKey(int i, int key) {
+        if (isFull()) {
+            throw new IndexOutOfBoundsException();
+        }
         if (key < arr[i]) return arr;
         arr[i] = key;
         int parent = getParent(i);
         while (i > 0 && arr[parent] < arr[i]) {
             swap(arr, i, parent);
             i = parent;
+            parent = getParent(i);
         }
         return arr;
     }
 
-    public int[] insert(int[] arr, int key) {
+    public boolean isEmpty() {
+        return heapSize == 0;
+    }
+
+    public boolean isFull() {
+        return heapSize == arr.length;
+    }
+
+    public int[] insert(int key) {
+        if (isFull()) {
+            throw new IndexOutOfBoundsException();
+        }
+        increaseKey(heapSize, key);
         heapSize ++;
-        increaseKey(arr, heapSize, key);
         return arr;
     }
 
@@ -49,12 +72,6 @@ public class PriorityQueue {
     private boolean isEven(int i) {
         return i % 2 == 0;
     }
-    private void buildMaxHeap(int[] arr) {
-        int n = arr.length;
-        for (int i = n / 2; i >= 0; i --) {
-            maxHeapify(arr, n, i);
-        }
-    }
 
     private void swap(int[] arr, int i, int j) {
         int temp = arr[i];
@@ -62,7 +79,7 @@ public class PriorityQueue {
         arr[j] = temp;
     }
 
-    private void maxHeapify(int[] arr, int n, int i) {
+    private void maxHeapify(int n, int i) {
         int max = i;
         int l = i * 2 + 1;
         int r = i * 2 + 2;
@@ -75,7 +92,7 @@ public class PriorityQueue {
         }
         if (max != i) {
             swap(arr, i, max);
-            maxHeapify(arr, n, max);
+            maxHeapify(n, max);
         }
     }
 }
