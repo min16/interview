@@ -1,20 +1,11 @@
 package ds.hashtable;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class HashTableChaining {
+public class HashTableChaining implements HashTable<Object, Object>{
 
-    public class HashNode {
-        int key;
-        int value;
-
-        public HashNode(int key, int value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
-
-    public ArrayList<HashNode>[] table;
+    public List<Map<Object, Object>>[] table;
     private int tableSize;
 
     public HashTableChaining(int tableSize) {
@@ -22,29 +13,38 @@ public class HashTableChaining {
         table = new ArrayList[tableSize];
     }
 
-    public int simpleHash(int key) {
-        return key % tableSize;
+    public Integer hash(Object key) {
+        return key.hashCode() & 0xfffffff % tableSize;
     }
 
-    public void insert(int key, int value) {
-        int hashedKey = simpleHash(key);
+    public boolean insert(Object key, Object value) {
+        int hashedKey = hash(key);
         if (table[hashedKey] == null) {
             table[hashedKey] = new ArrayList<>();
         } else {
-            for (HashNode hashNode : table[hashedKey]) {
-                if (hashNode.key == key) return;
+            for (Map map : table[hashedKey]) {
+                if (map.getKey() == key) return false;
             }
         }
-        table[hashedKey].add(new HashNode(key, value));
+        return table[hashedKey].add(new Map(key, value));
     }
 
-    public int get(int key) {
-        int hashedKey = simpleHash(key);
+    public Object get(Object key) {
+        int hashedKey = hash(key);
         if (table[hashedKey] == null) return -1;
-        for (HashNode hashNode : table[hashedKey]) {
-            if (hashNode.key == key) return hashNode.value;
+        for (Map map : table[hashedKey]) {
+            if (map.getKey() == key) return map.getValue();
         }
         return -1;
     }
 
+    public Object remove(Object key) {
+        int hashedKey = hash(key);
+        if (table[hashedKey] == null) return -1;
+        for (Map map : table[hashedKey]) {
+            if (map.getKey() == key) table[hashedKey].remove(map);
+            return map.getValue();
+        }
+        return -1;
+    }
 }
