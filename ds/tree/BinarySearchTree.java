@@ -5,6 +5,8 @@ import java.util.List;
 
 public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 
+    private int modifications = 0;
+
     protected Node<T> root = null;
     protected int size = 0;
 
@@ -30,12 +32,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 
     @Override
     public int size() {
-        return 0;
-    }
-
-    @Override
-    public boolean validate() {
-        return true;
+        return size;
     }
 
     protected String getString() {
@@ -89,7 +86,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 
     protected Node<T> removeNode(Node<T> nodeToRemove) {
         Node<T> replacementNode = getReplacementNode(nodeToRemove);
-        //replaceNodeWithNode(nodeToRemove, replacementNode);
+        replaceNodeWithNode(nodeToRemove, replacementNode);
         return nodeToRemove;
     }
 
@@ -104,12 +101,19 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 
         if (nodeToRemove.right != null && nodeToRemove.left != null) {
             // Two children.
-            // Todo: use randomness to deletions.
             // find least node from right subtree
-            replacement = getLeast(nodeToRemove.right);
-            if (replacement == null) {
-                replacement = nodeToRemove.right;
+            if (modifications % 2 != 0) {
+                replacement = getLeast(nodeToRemove.right);
+                if (replacement == null) {
+                    replacement = nodeToRemove.right;
+                }
+            } else {
+                replacement = getGreatest(nodeToRemove.left);
+                if (replacement == null) {
+                    replacement = nodeToRemove.left;
+                }
             }
+            modifications ++;
         } else if (nodeToRemove.right != null && nodeToRemove.left == null) {
             // only right child
             replacement = nodeToRemove.right;
@@ -117,6 +121,127 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
             replacement = nodeToRemove.left;
         }
         return replacement;
+    }
+
+    /*
+    * Replace nodeToRemove with replacementNode in the tree.
+    *
+    * @param nodeToRemove
+    *           Node<T> to remove and replace in the tree. nodeToRemove should
+    *           NOT be NULL.
+    * @param replacementNode
+    *           Node<T> to replace nodeToRemove in the tree. replacementNode
+    *           can be NULL.
+    */
+    protected void replaceNodeWithNode(Node<T> nodeToRemove, Node<T> replacementNode) {
+        if (replacementNode != null) {
+
+            // Replace replacementNode's branches with nodeToRemove's branches
+            Node<T> nodeToRemoveLeft = nodeToRemove.left;
+            if (nodeToRemoveLeft != null && nodeToRemoveLeft != replacementNode) {
+                nodeToRemoveLeft.parent = replacementNode;
+                replacementNode.left = nodeToRemoveLeft;
+            }
+
+            Node<T> nodeToRemoveRight = nodeToRemove.right;
+            if (nodeToRemoveRight != null && nodeToRemoveRight != replacementNode) {
+                nodeToRemoveRight.parent = replacementNode;
+                replacementNode.right = nodeToRemoveRight;
+            }
+
+            // Remove link from replacementNode's parent to replacement
+            Node<T> replacementParent = replacementNode.parent;
+            if (replacementParent != null && replacementParent != nodeToRemove) {
+                Node<T> replacementParentLeft = replacementParent.left;
+                Node<T> replacementParentRight = replacementParent.right;
+                if (replacementParentLeft != null && replacementParentLeft == replacementNode) {
+                    replacementParent.left = replacementParentRight;
+                    if (replacementParentRight != null) {
+                        replacementParentRight.parent = replacementParent;
+                    }
+                } else if (replacementParentRight != null && replacementParentRight == replacementNode) {
+                    replacementParent.right = replacementParentLeft;
+                    if (replacementParentLeft != null) {
+                        replacementParentLeft.parent = replacementParent;
+                    }
+                }
+            }
+        }
+
+        // Update the link from the nodeToRemove to the replacementNode
+        Node<T> parent = nodeToRemove.parent;
+        if (parent == null) {
+            root = replacementNode;
+            if (root != null) {
+                root.parent = null;
+            }
+        } else if (parent.left != null && parent.left == nodeToRemove) {
+            parent.left = replacementNode;
+            if (replacementNode != null) {
+                replacementNode.parent = parent;
+            }
+        } else if (parent.right != null && parent.right == nodeToRemove) {
+            parent.right = replacementNode;
+            if (replacementNode != null) {
+                replacementNode.parent = parent;
+            }
+        }
+
+        size --;
+    }
+
+    protected void rotateLeft(Node<T> node) {
+        Node<T> parent = node.parent;
+        Node<T> right = node.right;
+        Node<T> left = right.left;
+
+        right.left = node;
+        node.parent = right;
+
+        node.right = left;
+
+        if (left != null) {
+            left.parent = node;
+        }
+
+        if (parent != null) {
+            if (node == parent.left) {
+                parent.left = right;
+            } else if (node == parent.right) {
+                parent.right = right;
+            }
+            right.parent = parent;
+        } else {
+            root = right;
+            root.parent = null;
+        }
+    }
+
+    protected void rotateRight(Node<T> node) {
+        Node<T> parent = node.parent;
+        Node<T> left = node.left;
+        Node<T> right = left.right;
+
+        left.right = node;
+        node.parent = left;
+
+        node.left = right;
+
+        if (right != null) {
+            right.parent = node;
+        }
+
+        if (parent != null) {
+            if (node == parent.right) {
+                parent.right = left;
+            } else if (node == parent.left) {
+                parent.left = left;
+            }
+            left.parent = parent;
+        } else {
+            root = left;
+            root.parent = null;
+        }
     }
 
     protected Node<T> createNewNode(Node<T> parent, T value) {
@@ -145,6 +270,22 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
             }
         }
         return left;
+    }
+
+    protected Node<T> getGreatest(Node<T> startingNode) {
+        if (startingNode == null) {
+            return null;
+        }
+        Node<T> right = startingNode.right;
+        while (right != null && right.value != null) {
+            Node<T> node = right.right;
+            if (node != null && node.value != null) {
+                right = node;
+            } else {
+                break;
+            }
+        }
+        return right;
     }
 
     private String getString(Node<T> node, String prefix, boolean isTail) {
@@ -183,7 +324,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
         return builder.toString();
     }
 
-    private Node<T> getNode(T value) {
+    protected Node<T> getNode(T value) {
         Node<T> node = root;
 
         while (node != null) {

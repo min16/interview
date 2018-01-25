@@ -54,8 +54,72 @@ public class BinarySearchTreeTest {
     }
 
     @Test
-    public void testGetReplacementNode() {
+    public void testGetGreatest() {
+        binarySearchTree.add(10);
+        binarySearchTree.add(2);
+        binarySearchTree.add(3);
+        binarySearchTree.add(4);
+        binarySearchTree.add(9);
+        assertEquals(9, binarySearchTree.getGreatest(binarySearchTree.getNode(2)).value);
+    }
 
+    @Test
+    public void testGetReplacementNode() {
+        testInsert();
+        assertEquals(20, binarySearchTree.getReplacementNode(binarySearchTree.getNode(10)).value);
+        assertEquals(20, binarySearchTree.getReplacementNode(binarySearchTree.getNode(46)).value);
+        assertEquals(null, binarySearchTree.getReplacementNode(binarySearchTree.getNode(20)));
+    }
+
+    @Test
+    public void testRemoveRoot() {
+        testInsert();
+        assertEquals(10, binarySearchTree.remove(binarySearchTree.getNode(10).value));
+    }
+
+    @Test
+    public void testRemoveNodeHasTwoChildren() {
+        binarySearchTree.add(10);
+        binarySearchTree.add(2);
+        binarySearchTree.add(12);
+        binarySearchTree.add(1);
+        binarySearchTree.add(4);
+        binarySearchTree.add(9);
+        assertEquals(2, binarySearchTree.remove(binarySearchTree.getNode(2).value));
+    }
+
+    @Test
+    public void testRemoveNodeHasNoChild() {
+        binarySearchTree.add(10);
+        binarySearchTree.add(2);
+        binarySearchTree.add(12);
+        assertEquals(12, binarySearchTree.remove(binarySearchTree.getNode(12).value));
+    }
+
+    @Test
+    public void testSize() {
+        testInsert();
+        assertEquals(5, binarySearchTree.size());
+        binarySearchTree.remove(binarySearchTree.getNode(10).value);
+        assertEquals(4, binarySearchTree.size());
+    }
+
+    @Test
+    public void testRotateLeft() {
+        testInsert();
+        binarySearchTree.add(50);
+        binarySearchTree.add(51);
+        binarySearchTree.add(23);
+        binarySearchTree.rotateLeft(binarySearchTree.getNode(46));
+    }
+
+    @Test
+    public void testRotateRight() {
+        testInsert();
+        binarySearchTree.add(50);
+        binarySearchTree.add(51);
+        binarySearchTree.add(23);
+        binarySearchTree.rotateRight(binarySearchTree.getNode(46));
     }
 
     @After
