@@ -1,7 +1,10 @@
 # 자료구조
 * #### Tree
-  * ##### Binary Search tree
-  * ##### Red Black Tree
+  * #### Binary Search tree
+  * #### Self-Balancing BSTs
+    * #### AVL Tree
+    * #### Red Black Tree
+    * #### Splay Tree
 
 * #### Priority Queue
 * #### Binary Heap
@@ -19,12 +22,34 @@
 #### Procedure
 
 #### Advantages of BST over Hash Table
+
+#### How to handle duplicates in BST?
+
 ---
+## Self-Balancing BSTs
+BST는 삽입 삭제시 `O(h)` 걸린다. skewed binary tree는 `O(n)`. self-balancing BST는 항상 `O(h)`를 보장한다. 높이를 줄여 균형된 트리를 만든다.
+각 트리마다 다른 특징이 있다.
+
+* AVL Tree
+* Red Black Tree
+---
+
+## AVL Tree
+AVL tree는 __왼쪽 서브트리의 높이와 오른쪽 서브트리의 높이의 차로__ balnace를 확인한다. 그러므로 node에 height field가 있다.
+
+#### Balnace Factor (BF)
+`왼쪽 서브트리 높이 - 오른쪽 서브트리 높이`. BF 값을 __-1이상, 1이하를 유지__ 해야한다. 즉, 양쪽 높이 차이가 2이상 차이나면 안된다. 범위를 벗어나면 `rotation`으로 rebalancing 한다.
+
+#### Procedure
+* `insert()`: standard BST insert 후, `bottom-up` 방식으로 진행하여 node의 height를 update하고 `unbalanced node`를 찾아 rotate한다.
+* `delete()`: standard BST delete 후, insert()와 동일하다. 단, 더 큰 높이 값을 가진 노드들로 rotate 된다.
+* `rotate()`: 4가지 case로 `left-left, left-right, right-right, right-left`가 있다.
+---
+
 
 ## Red Black Tree
 self-balancing tree, node에 color field가 추가된다.
-BST는 삽입 삭제시 O(h) 걸린다. skewed binary tree는 O(n). red black tree는
-삽입 삭제시 O(log n)을 보장한다.
+red black tree는 삽입, 삭제시 `O(log n)`을 보장한다. 상수 시간을 갖는 `recoloring`과 `rotation`으로 balancing 한다.
 
 #### Property
 1. 모든 node는 black 또는 red를 가진다.
@@ -41,17 +66,6 @@ n개를 가지는 red black tree의 높이는 최대 2log(n+1)이다.
 >bh >= h / 2
 
 > n = 2 ^ bh - 1
-
-#### Insert Operation
-1. **recoloring**
-
-  parent와 uncle이 red인 경우이다. black으로 변경하고 grand를 red로 변경한다.
-
-2. **rotation**
-
-  parent는 red지만 uncle이 black인 경우이다. left-rotate 또는 right-rotate를 한다. rotate 연산은 O(1)이다.
-
-#### Delete Operation
 
 ---
 
