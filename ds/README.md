@@ -32,6 +32,7 @@ BST는 삽입 삭제시 `O(h)` 걸린다. skewed binary tree는 `O(n)`. self-bal
 
 * AVL Tree
 * Red Black Tree
+* Splay Tree
 ---
 
 ## AVL Tree
@@ -67,6 +68,20 @@ n개를 가지는 red black tree의 높이는 최대 2log(n+1)이다.
 
 > n = 2 ^ bh - 1
 
+---
+
+## Splay Tree
+최근에 사용된 key를 root로 옮겨 (splay) reblanacing하는 tree. 이전에 검색한 node에 대해 `O(1)`로 수행한다. 그러므로 수많은 key들 중 몇개만 자주 사용될 때 유용하다. 평균 연산 시간은 `O(log n)`.
+
+#### Procedure
+* `splay()`: rotate통해 node를 root로 옮긴다.
+* `search(), insert()`: standard BST 연산 이후 `splay()` 한다.
+* `delete()`: `splay()`하여 root 삭제 후 왼쪽과 오른쪽 서브트리를 분리한다. 왼쪽 서브트리의 max값을 `splay()` 후 오른쪽 서브트리와 합친다.  
+
+#### Property
+* Frequently accessed items는 싼 비용으로 찾을 수 있다.
+* AVL tree, Red Black tree보다 단순하고 extra field가 없다.
+* `search()`로 node 위치가 변경된다.
 ---
 
 ## Priority Queue
