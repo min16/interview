@@ -2,6 +2,7 @@
 * #### Tree
   * ##### Binary Search tree
   * ##### Red Black Tree
+  * ##### AVL Tree
 
 * #### Priority Queue
 * #### Binary Heap
@@ -19,6 +20,9 @@
 #### Procedure
 
 #### Advantages of BST over Hash Table
+
+#### How to solve duplicate key
+
 ---
 
 ## Red Black Tree
@@ -34,7 +38,7 @@ BST는 삽입 삭제시 O(h) 걸린다. skewed binary tree는 O(n). red black tr
 5. leaf node는 항상 black이다.
 
 #### Comparison with AVL tree
-모두 balanced search tree이다. AVL tree는 삽입 삭제시 rotation이 더 잦다. 그러므로 삽입 삭제가 적고 __검색이 많을때 선호__ 된다.
+모두 balanced search tree이다. AVL tree는 삽입 삭제시 rotation이 더 잦다. 그러므로 삽입 삭제가 적고 __검색이 많을때__ 선호된다.
 
 #### Height of Red Black tree
 n개를 가지는 red black tree의 높이는 최대 2log(n+1)이다.
@@ -43,17 +47,18 @@ n개를 가지는 red black tree의 높이는 최대 2log(n+1)이다.
 > n = 2 ^ bh - 1
 
 #### Insert Operation
-1. **recoloring**
+1. recoloring
 
   parent와 uncle이 red인 경우이다. black으로 변경하고 grand를 red로 변경한다.
 
-2. **rotation**
+2. rotation
 
   parent는 red지만 uncle이 black인 경우이다. left-rotate 또는 right-rotate를 한다. rotate 연산은 O(1)이다.
-
-#### Delete Operation
+---
+## AVL Tree
 
 ---
+
 
 ## Priority Queue
 FIFO queue와는 다르게 `우선순위가 높은 순서대로` 나온다. `key`로 순위를 정한다. 우선순위가 가장 높은 요소가 맨 앞에 있고, 그 요소가 삭제되면 다음으로 높은 요소가 맨 앞으로 간다. `Heap`으로 구현한다. 우선순위가 가장 높은 N개를 구할때 적합하다.
