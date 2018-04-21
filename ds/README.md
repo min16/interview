@@ -1,9 +1,11 @@
 # 자료구조
 * #### Tree
-  * ##### Binary Search tree
-  * ##### Red Black Tree
-  * ##### AVL Tree
-
+  * #### Binary Search tree
+  * #### Self-Balancing BSTs
+    * #### AVL Tree
+    * #### Red Black Tree
+    * #### Splay Tree
+    * #### B Tree
 * #### Priority Queue
 * #### Binary Heap
 * #### Hashing
@@ -19,16 +21,41 @@
 
 #### Procedure
 
+<<<<<<< HEAD
 #### Advantages of BST over Hash Table
 
 #### How to solve duplicate key
 
+=======
+#### How to handle duplicates in BST?
+
+---
+## Self-Balancing BSTs
+BST는 삽입 삭제시 `O(h)` 걸린다. skewed binary tree는 `O(n)`. self-balancing BST는 항상 `O(h)`를 보장한다. 높이를 줄여 균형된 트리를 만든다.
+각 트리마다 다른 특징이 있다.
+
+* AVL Tree
+* Red Black Tree
+* Splay Tree
+* B Tree
+---
+
+## AVL Tree
+AVL tree는 __왼쪽 서브트리의 높이와 오른쪽 서브트리의 높이의 차로__ balnace를 확인한다. 그러므로 node에 height field가 있다.
+
+#### Balnace Factor (BF)
+`왼쪽 서브트리 높이 - 오른쪽 서브트리 높이`. BF 값을 __-1이상, 1이하를 유지__ 해야한다. 즉, 양쪽 높이 차이가 2이상 차이나면 안된다. 범위를 벗어나면 `rotation`으로 rebalancing 한다.
+
+#### Procedure
+* `insert()`: standard BST insert 후, `bottom-up` 방식으로 진행하여 node의 height를 update하고 `unbalanced node`를 찾아 rotate한다.
+* `delete()`: standard BST delete 후, insert()와 동일하다. 단, 더 큰 높이 값을 가진 노드들로 rotate 된다.
+* `rotate()`: 4가지 case로 `left-left, left-right, right-right, right-left`가 있다.
+>>>>>>> 5b0aae066046365e5fb72fbfec0fb06b3d43cb09
 ---
 
 ## Red Black Tree
 self-balancing tree, node에 color field가 추가된다.
-BST는 삽입 삭제시 O(h) 걸린다. skewed binary tree는 O(n). red black tree는
-삽입 삭제시 O(log n)을 보장한다.
+red black tree는 삽입, 삭제시 `O(log n)`을 보장한다. 상수 시간을 갖는 `recoloring`과 `rotation`으로 balancing 한다.
 
 #### Property
 1. 모든 node는 black 또는 red를 가진다.
@@ -38,7 +65,11 @@ BST는 삽입 삭제시 O(h) 걸린다. skewed binary tree는 O(n). red black tr
 5. leaf node는 항상 black이다.
 
 #### Comparison with AVL tree
+<<<<<<< HEAD
 모두 balanced search tree이다. AVL tree는 삽입 삭제시 rotation이 더 잦다. 그러므로 삽입 삭제가 적고 __검색이 많을때__ 선호된다.
+=======
+AVL tree는 less depth이므로 검색이 빠르다. 대신 삽입 삭제시 rotation이 더 잦다. 그러므로 삽입 삭제가 적고 __검색이 많을때 선호__ 된다.
+>>>>>>> 5b0aae066046365e5fb72fbfec0fb06b3d43cb09
 
 #### Height of Red Black tree
 n개를 가지는 red black tree의 높이는 최대 2log(n+1)이다.
@@ -46,17 +77,40 @@ n개를 가지는 red black tree의 높이는 최대 2log(n+1)이다.
 
 > n = 2 ^ bh - 1
 
+<<<<<<< HEAD
 #### Insert Operation
 1. recoloring
+=======
+---
+>>>>>>> 5b0aae066046365e5fb72fbfec0fb06b3d43cb09
 
-  parent와 uncle이 red인 경우이다. black으로 변경하고 grand를 red로 변경한다.
+## Splay Tree
+최근에 사용된 key를 root로 옮겨 (splay) reblanacing하는 tree. 이전에 검색한 node에 대해 `O(1)`로 수행한다. 그러므로 수많은 key들 중 몇개만 자주 사용될 때 유용하다. 평균 연산 시간은 `O(log n)`.
 
+<<<<<<< HEAD
 2. rotation
 
   parent는 red지만 uncle이 black인 경우이다. left-rotate 또는 right-rotate를 한다. rotate 연산은 O(1)이다.
 ---
 ## AVL Tree
+=======
+#### Procedure
+* `splay()`: rotate통해 node를 root로 옮긴다.
+* `search(), insert()`: standard BST 연산 이후 `splay()` 한다.
+* `delete()`: `splay()`하여 root 삭제 후 왼쪽과 오른쪽 서브트리를 분리한다. 왼쪽 서브트리의 max값을 `splay()` 후 오른쪽 서브트리와 합친다.  
 
+#### Property
+* Frequently accessed items는 싼 비용으로 찾을 수 있다.
+* AVL tree, Red Black tree보다 단순하고 extra field가 없다.
+* `search()`로 node 위치가 변경된다.
+---
+
+## B Tree
+다른 self-balnacing search tree와 다르게 main memory에 들어가지 않는 매우 큰 data를 저장할때 사용한다. (database, file system) minimum dgree 또는 maximum degree가 있어서 하나의 node에 여러개 key를 가지고 있다.
+>>>>>>> 5b0aae066046365e5fb72fbfec0fb06b3d43cb09
+
+#### Hash Indexes vs B Tree Indexes
+Hash indexes는 `equality` 쿼리에 적합히다. B tree indexes는 범위 기반 검색에 적합하다. (ex, 나이가 20 이상, a로 시작하는 이름) 또한 유지 및 스케일링이 쉽다는 장점이 있다.
 ---
 
 
