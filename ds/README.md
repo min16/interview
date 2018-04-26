@@ -104,12 +104,6 @@ FIFO queue와는 다르게 `우선순위가 높은 순서대로` 나온다. `key
 * Data compression
 * Heap Sort
 * Operating System
-
-#### Questions
-* java priority queue는 array로 구현되어있는가? insert는 어떻게 하는거지?
-* 언제 사용? 가장 큰 값 N개
-* fibonacci heap으로 구현하기
-* Applications
 ---
 
 ## Binary Heap
@@ -130,4 +124,16 @@ FIFO queue와는 다르게 `우선순위가 높은 순서대로` 나온다. `key
 ---
 
 ## Hash Table
+data를 `hashing` 하여 원하는 범위의 값의 `key`로 변환한다. direct access하기 때문에 상수시간을 갖는다. 하지만 table 크기는 정해져있으므로 값 비싼 resizing을 해줘야한다.
+
+#### Collision Handling
+큰 값을 정해진 범위 값으로 바꾸다 보면 `duplicate key`가 존재 할 수 있다. 해결책으로 `Chaining`과 `Open Addressing`이 있다.
+
+* `Chaining`: table slot을 linked list로 만들어 중복시 추가한다. extra space가 들지만 구현이 쉽다. 메모리 낭비가 있을 수 있다. (ex, 한 slot만 꽉 참)
+
+* `Open Addressing`: 모든 key가 hash table에 바로 저장된다. 충돌시 저장 위치를 정하는 방법은 다양하다.
+
+  * Linear Probing: hash(x)에 1를 증가시켜 빈 공간을 찾는다
+  * Quadratic Probing: hash(x)에 i*i를 증가시켜 빈 공간을 찾는다.
+  * Doubling Hashing: hash(x) + i*hash2(x)로 다른 hash function을 조합한다.
 ---
