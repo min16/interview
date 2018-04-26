@@ -6,7 +6,6 @@
     * #### Red Black Tree
     * #### Splay Tree
     * #### B Tree
-
 * #### Priority Queue
 * #### Binary Heap
 * #### Hashing
@@ -22,6 +21,12 @@
 
 #### Procedure
 
+<<<<<<< HEAD
+#### Advantages of BST over Hash Table
+
+#### How to solve duplicate key
+
+=======
 #### How to handle duplicates in BST?
 
 ---
@@ -45,6 +50,7 @@ AVL tree는 __왼쪽 서브트리의 높이와 오른쪽 서브트리의 높이�
 * `insert()`: standard BST insert 후, `bottom-up` 방식으로 진행하여 node의 height를 update하고 `unbalanced node`를 찾아 rotate한다.
 * `delete()`: standard BST delete 후, insert()와 동일하다. 단, 더 큰 높이 값을 가진 노드들로 rotate 된다.
 * `rotate()`: 4가지 case로 `left-left, left-right, right-right, right-left`가 있다.
+>>>>>>> 5b0aae066046365e5fb72fbfec0fb06b3d43cb09
 ---
 
 ## Red Black Tree
@@ -59,7 +65,11 @@ red black tree는 삽입, 삭제시 `O(log n)`을 보장한다. 상수 시간을
 5. leaf node는 항상 black이다.
 
 #### Comparison with AVL tree
+<<<<<<< HEAD
+모두 balanced search tree이다. AVL tree는 삽입 삭제시 rotation이 더 잦다. 그러므로 삽입 삭제가 적고 __검색이 많을때__ 선호된다.
+=======
 AVL tree는 less depth이므로 검색이 빠르다. 대신 삽입 삭제시 rotation이 더 잦다. 그러므로 삽입 삭제가 적고 __검색이 많을때 선호__ 된다.
+>>>>>>> 5b0aae066046365e5fb72fbfec0fb06b3d43cb09
 
 #### Height of Red Black tree
 n개를 가지는 red black tree의 높이는 최대 2log(n+1)이다.
@@ -67,11 +77,23 @@ n개를 가지는 red black tree의 높이는 최대 2log(n+1)이다.
 
 > n = 2 ^ bh - 1
 
+<<<<<<< HEAD
+#### Insert Operation
+1. recoloring
+=======
 ---
+>>>>>>> 5b0aae066046365e5fb72fbfec0fb06b3d43cb09
 
 ## Splay Tree
 최근에 사용된 key를 root로 옮겨 (splay) reblanacing하는 tree. 이전에 검색한 node에 대해 `O(1)`로 수행한다. 그러므로 수많은 key들 중 몇개만 자주 사용될 때 유용하다. 평균 연산 시간은 `O(log n)`.
 
+<<<<<<< HEAD
+2. rotation
+
+  parent는 red지만 uncle이 black인 경우이다. left-rotate 또는 right-rotate를 한다. rotate 연산은 O(1)이다.
+---
+## AVL Tree
+=======
 #### Procedure
 * `splay()`: rotate통해 node를 root로 옮긴다.
 * `search(), insert()`: standard BST 연산 이후 `splay()` 한다.
@@ -85,11 +107,13 @@ n개를 가지는 red black tree의 높이는 최대 2log(n+1)이다.
 
 ## B Tree
 다른 self-balnacing search tree와 다르게 main memory에 들어가지 않는 매우 큰 data를 저장할때 사용한다. (database, file system) minimum dgree 또는 maximum degree가 있어서 하나의 node에 여러개 key를 가지고 있다.
+>>>>>>> 5b0aae066046365e5fb72fbfec0fb06b3d43cb09
 
 #### Hash Indexes vs B Tree Indexes
 Hash indexes는 `equality` 쿼리에 적합히다. B tree indexes는 `범위 기반 검색`에 적합하다. (ex, 나이가 20 이상, a로 시작하는 이름) 또한 유지 및 스케일링이 쉽다는 장점이 있다.
 
 ---
+
 
 ## Priority Queue
 FIFO queue와는 다르게 `우선순위가 높은 순서대로` 나온다. `key`로 순위를 정한다. 우선순위가 가장 높은 요소가 맨 앞에 있고, 그 요소가 삭제되면 다음으로 높은 요소가 맨 앞으로 간다. `Heap`으로 구현한다. 우선순위가 가장 높은 N개를 구할때 적합하다.
