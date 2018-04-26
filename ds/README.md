@@ -12,7 +12,7 @@
 * #### Hashing
 ----
 ## Binary Search Tree
-`선형 자료구조`인 Arrays, Linked Lists, Stack, Queues와  다르게 tree는 `계층 자료구조`이다. `binary tree`는 자식 노드가 최대 2개를 뜻한다. `binary search tree`는 아래와 같은 특성을 가진다.
+`선형 자료구조`인 Arrays, Linked Lists, Stack, Queues와  다르게 tree는 `계층 자료구조`이다. binary tree는 자식 노드가 최대 2개를 뜻한다. binary search tree는 아래와 같은 특성을 가진다.
 
 * 왼쪽 서브트리의 모든 노드들은 현재 노드보다 값이 작다
 * 오른쪽 서브트리의 모든 노드들은 현재 노드보다 값이 크다
@@ -87,7 +87,8 @@ n개를 가지는 red black tree의 높이는 최대 2log(n+1)이다.
 다른 self-balnacing search tree와 다르게 main memory에 들어가지 않는 매우 큰 data를 저장할때 사용한다. (database, file system) minimum dgree 또는 maximum degree가 있어서 하나의 node에 여러개 key를 가지고 있다.
 
 #### Hash Indexes vs B Tree Indexes
-Hash indexes는 `equality` 쿼리에 적합히다. B tree indexes는 범위 기반 검색에 적합하다. (ex, 나이가 20 이상, a로 시작하는 이름) 또한 유지 및 스케일링이 쉽다는 장점이 있다.
+Hash indexes는 `equality` 쿼리에 적합히다. B tree indexes는 `범위 기반 검색`에 적합하다. (ex, 나이가 20 이상, a로 시작하는 이름) 또한 유지 및 스케일링이 쉽다는 장점이 있다.
+
 ---
 
 ## Priority Queue
@@ -113,8 +114,8 @@ FIFO queue와는 다르게 `우선순위가 높은 순서대로` 나온다. `key
 
 #### Procedure
 * `MAX-HEAPIFY`: `siftDown`방법으로 max-heap property 유지, `O(log n)`
-* `BUILD-MAX-HEAP`: unordered input `array`를 max-heap으로 변경, `O(n)`
-* `HEAPSORT`: `binary heap`을 이용한 정렬, `O(nlog n)`
+* `BUILD-MAX-HEAP`: unordered input array를 max-heap으로 변경, `O(n)`
+* `HEAPSORT`: binary heap을 이용한 정렬, `O(nlog n)`
 * `MAX-HEAP-INSERT, HEAP-EXTRACT-MAX, HEAP-INCREAS-KEY, HEAP-MAXIMUM`: `priority queue`에 사용, `O(long n)`
 
 #### Applications
